@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  nginx:
+    image: pejmanhkh/mariadb10
+    ports:
+      - "3307:3306"    
+    container_name: mymariadb
+    volumes:
+      - ./log/:/var/log/
+      - ./mysql/:/var/lib/mysql/
+      - ./my.cnf.d/:/etc/my.cnf.d/
+    restart: unless-stopped

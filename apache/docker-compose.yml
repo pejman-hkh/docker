@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  nginx:
+    image: pejmanhkh/apache2
+    ports:
+      - "8081:8080"    
+    container_name: myapache2
+    volumes:
+      - ./apache2/:/etc/apache2/
+      - ./directadmin/:/usr/local/directadmin/
+      - ./www/:/var/www/html/
+      - ./home/:/home/
+      - ./log/:/var/log/
+    restart: unless-stopped
