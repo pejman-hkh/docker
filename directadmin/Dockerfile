@@ -27,7 +27,7 @@ RUN cd /usr/lib/ && ln -s apache2 apache
 
 
 # define the port number the container should expose
-EXPOSE 80
+EXPOSE 80 443
 
 # run the command
 CMD ["bash", "wrapper.sh"]
