@@ -1,4 +1,5 @@
 httpd
+nginx
 
 while true
 do

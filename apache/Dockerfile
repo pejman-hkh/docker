@@ -14,6 +14,7 @@ RUN adduser webapps -S
 RUN addgroup webapps -S
 RUN apk update
 RUN apk add bash
+RUN apk add nginx
 RUN apk add apache2
 RUN apk add apache2-utils
 RUN apk add apache2-proxy

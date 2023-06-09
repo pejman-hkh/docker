@@ -3,10 +3,12 @@ services:
   nginx:
     image: pejmanhkh/apache2
     ports:
-      - "8081:8080"    
+      - "8082:80" 
+      - "8081:8080" 
     container_name: myapache2
     volumes:
       - ./apache2/:/etc/apache2/
+      - ./nginx/:/etc/nginx/
       - ./directadmin/:/usr/local/directadmin/
       - ./www/:/var/www/html/
       - ./home/:/home/
