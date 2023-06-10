@@ -5,3 +5,5 @@ run:
 
 modules:
 	sudo docker run -it pejmanhkh/php72-ext /root/php-7.2.34/bin/php -m
+sh:
+	sudo docker run -it pejmanhkh/php72-ext sh
