@@ -19,3 +19,4 @@ RUN apk add sqlite
 RUN apk add sqlite-dev
 RUN apk add make
 RUN apk add cmake
+RUN apk add autoconf
