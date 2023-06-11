@@ -23,7 +23,7 @@ RUN apk add cmake
 RUN apk add autoconf
 RUN apk add gettext-dev
 RUN tar -xvzf php-7.2.34.tar.gz
-RUN cd php-7.2.34 && bash configure --prefix=$(pwd) --enable-fpm && make -j4 && make install
+RUN cd php-7.2.34 && bash configure --prefix=/usr/local/php72 --enable-fpm && make -j4 && make install
 
 #install extensions
 #RUN cd php-7.2.34/ext/pdo && ../../bin/phpize && ./configure --with-php-config=/root/php-7.2.34/bin/php-config && make -j4 && make install
