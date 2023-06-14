@@ -1,6 +1,6 @@
 build:
-	sudo docker build -t pejmanhkh/php72 .
+	sudo docker build  -t pejmanhkh/php72 .
 version:
-	sudo docker run -it pejmanhkh/php72 /root/php-7.2.34/bin/php -v
+	sudo docker run -it -v $(shell pwd)/src/:/root/src/ pejmanhkh/php72 /usr/local/php72/bin/php -v
 sh:
-	sudo docker run -it pejmanhkh/php72 sh
+	sudo docker run -it -v $(shell pwd)/src/:/root/src/ pejmanhkh/php72 sh

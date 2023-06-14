@@ -1,30 +1,53 @@
-FROM alpine
+FROM pejmanhkh/php-dev AS needs-squashing
 
 # set a directory for the app
 WORKDIR /root
-
-# copy all the files to the container
-#COPY wrapper.sh wrapper.sh
-
+COPY php-7.2.34.tar.gz /root/src/
 # install dependencies
-RUN wget https://www.php.net/distributions/php-7.2.34.tar.gz
-ENV http_proxy http://172.17.0.1:10808
-ENV https_proxy http://172.17.0.1:10808
-RUN apk update
-RUN apk add bash
-RUN apk add gcc
-RUN apk add g++
-RUN apk add libxml2
-RUN apk add libxml2-dev
-RUN apk add sqlite
-RUN apk add sqlite-dev
-RUN apk add make
-RUN apk add cmake
-RUN apk add autoconf
-RUN apk add gettext-dev
-RUN tar -xvzf php-7.2.34.tar.gz
-RUN cd php-7.2.34 && bash configure --prefix=/usr/local/php72 --enable-fpm && make -j4 && make install
+RUN mkdir src;\
+cd src;\
+apk update;\
+#apk add libxml2 libxml2-dev sqlite-dev gettext-dev;\
+tar -xvzf php-7.2.34.tar.gz; \
+cd php-7.2.34;\
+./configure --prefix=/usr/local/php72 --disable-all --disable-cgi --disable-phpdbg;\
+make -j4;\
+make install;
+
+
+ENV PHP_INI_SCAN_DIR /usr/local/php72/lib/php.conf.d/
 
 #install extensions
-#RUN cd php-7.2.34/ext/pdo && ../../bin/phpize && ./configure --with-php-config=/root/php-7.2.34/bin/php-config && make -j4 && make install
-#RUN cd php-7.2.34/ext/mbstring && ../../bin/phpize && ./configure --with-php-config=/root/php-7.2.34/bin/php-config && make -j4 && make install
+RUN cd /usr/local/php72/lib/ && mkdir php.conf.d
+RUN cd src/php-7.2.34/ext/pdo && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+#RUN cd /usr/local/php72/lib/php.conf.d && cat > pdo.ini && echo 'extension=pdo.so' > pdo.ini
+
+RUN cd src/php-7.2.34/ext/mbstring && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+RUN cd /usr/local/php72/lib/php.conf.d && cat > mbstring.ini && echo 'extension=mbstring.so' > mbstring.ini
+
+RUN cd src/php-7.2.34/ext/ && cp -R mysqlnd/ /usr/local/php72/include/php/ext/ && cd mysqli && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+#RUN cd /usr/local/php72/lib/php.conf.d && cat > mysqli.ini && echo 'extension=mysqli.so' > mysqli.ini
+
+RUN cd src/php-7.2.34/ext/gd && apk add libpng-dev && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+RUN cd /usr/local/php72/lib/php.conf.d && cat > gd.ini && echo 'extension=gd.so' > gd.ini
+
+RUN cd src/php-7.2.34/ext/zip && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+RUN cd /usr/local/php72/lib/php.conf.d && cat > zip.ini && echo 'extension=zip.so' > zip.ini
+
+RUN cd src/php-7.2.34/ext/curl && apk add curl && apk add curl-dev && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+RUN cd /usr/local/php72/lib/php.conf.d && cat > curl.ini && echo 'extension=curl.so' > curl.ini
+
+RUN cd src/php-7.2.34/ext/session && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+
+RUN cd src/php-7.2.34/ext/opcache && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+
+RUN cd src/php-7.2.34/ext/json && /usr/local/php72/bin/phpize && ./configure --with-php-config=/usr/local/php72/bin/php-config && make -j4 && make install
+
+RUN cd src;\
+rm -rf php-7.2.34;\
+rm -rf php-7.2.34.tar.gz;
+
+RUN apk del --no-network .build-deps;
+
+FROM scratch
+COPY --from=needs-squashing / /
