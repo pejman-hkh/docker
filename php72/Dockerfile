@@ -11,7 +11,7 @@ tar -xvzf php-7.2.34.tar.gz;
 
 RUN cd src/php-7.2.34;\
 ./configure --prefix=/usr/local/php72 --disable-all --disable-cgi --disable-phpdbg \
---with-fpm \
+--enable-fpm \
 --with-config-file-path="$PHP_INI_DIR" \
 --with-config-file-scan-dir="$PHP_INI_DIR/php.conf.d";\
 make -j4;\
