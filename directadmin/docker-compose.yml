@@ -15,6 +15,7 @@ services:
       - ./home/:/home/
       - ./log/:/var/log/
       - ./php72/sockets:/usr/local/php72/sockets/
+      - ./php80/sockets:/usr/local/php80/sockets/
     restart: unless-stopped
   php72:
     image: pejmanhkh/php72
@@ -25,5 +26,15 @@ services:
       - ./log/:/var/log/
       - ./php72/etc:/usr/local/etc
     container_name: php72
+    restart: unless-stopped  
+  php80:
+    image: pejmanhkh/php80
+    volumes:
+      - ./home/:/home/
+      - ./directadmin/:/usr/local/directadmin/
+      - ./php80/sockets:/usr/local/php80/sockets/
+      - ./log/:/var/log/
+      - ./php80/etc:/usr/local/etc
+    container_name: php80
     restart: unless-stopped
     

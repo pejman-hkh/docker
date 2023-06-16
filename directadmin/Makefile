@@ -1,4 +1,5 @@
 build:
+	cd php80 && make build
 	cd php72 && make build
 	sudo docker build -t pejmanhkh/nginx-apache .
 run:
