@@ -1,4 +1,4 @@
-# Apache Directadmin
+# Directadmin Docker
 
 Nginx has proxied to apache and apache work with php-fpm properly now
 
