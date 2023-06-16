@@ -22,6 +22,10 @@ sed -i 's/testuser.com/'$domain'/' "./directadmin/data/users/"$user"/php/php-fpm
 sed -i 's/testuser/'$user'/' "./directadmin/data/users/"$user"/php/php-fpm72.conf"
 sed -i 's/testuser/'$user'/' "./directadmin/data/users/"$user"/php/php-fpm72.conf"
 
+sed -i 's/testuser.com/'$domain'/' "./directadmin/data/users/"$user"/php/php-fpm80.conf"
+sed -i 's/testuser/'$user'/' "./directadmin/data/users/"$user"/php/php-fpm80.conf"
+sed -i 's/testuser/'$user'/' "./directadmin/data/users/"$user"/php/php-fpm80.conf"
+
 echo "
 include /usr/local/directadmin/data/users/$user/nginx.conf;" >> ./nginx/directadmin-vhosts.conf
 
